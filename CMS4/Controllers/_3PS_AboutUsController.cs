@@ -25,19 +25,20 @@ namespace WebApplication1.Controllers.SectionsController
             //string name = "about_us";
 
             string query = @"
-                select u.full_name as ""u.full_name"",
-                        hb.id as ""hb.id"",
-                        section_name as ""section_name"",
-                        section_type as ""section_type"",
-                        layout_position as ""layout_position"",
-                        last_mod_date as ""last_mod_date"",
-                        text as ""text"",
-                        additional_text as ""additional_text"",
-                        image1 as ""image1"",
-                        image2 as ""image2"",
-                        image3 as ""image3"",
-                        last_mod_user_id as ""last_mod_user_id""   
-                from about_us
+                select u.full_name as ""full_name"",
+                        au.id as ""id"",
+                        au.section_name as ""section_name"",
+                        au.section_type as ""section_type"",
+                        au.layout_position as ""layout_position"",
+                        au.last_mod_date as ""last_mod_date"",
+                        au.text as ""text"",
+                        au.additional_text as ""additional_text"",
+                        au.image1 as ""image1"",
+                        au.image2 as ""image2"",
+                        au.image3 as ""image3"",
+                        au.last_mod_user_id as ""last_mod_user_id""   
+                 from about_us as au
+                 inner join  users as u on u.id = au.last_mod_user_id
             ";
 
             DataTable table = new DataTable();
@@ -69,20 +70,20 @@ namespace WebApplication1.Controllers.SectionsController
             //string name = "about_us";
             string query = @"
                 select u.full_name as ""u.full_name"",
-                        hb.id as ""hb.id"",
-                        section_name as ""section_name"",
-                        section_type as ""section_type"",
-                        layout_position as ""layout_position"",
-                        last_mod_date as ""last_mod_date"",
-                        text as ""text"",
-                        additional_text as ""additional_text"",
-                        image1 as ""image1"",
-                        image2 as ""image2"",
-                        image3 as ""image3"",
-                        last_mod_user_id as ""last_mod_user_id""    
-                from hero_banners as hb
-                 inner join  users as u on u.id = hb.last_mod_user_id
-                where (hb.section_name=@section_name)
+                        au.id as ""hb.id"",
+                        au.section_name as ""section_name"",
+                        au.section_type as ""section_type"",
+                        au.layout_position as ""layout_position"",
+                        au.last_mod_date as ""last_mod_date"",
+                        au.text as ""text"",
+                        au.additional_text as ""additional_text"",
+                        au.image1 as ""image1"",
+                        au.image2 as ""image2"",
+                        au.image3 as ""image3"",
+                        au.last_mod_user_id as ""last_mod_user_id""    
+                from about_us as au
+                 inner join  users as u on u.id = au.last_mod_user_id
+                where au.section_name=@section_name
             ";
 
             DataTable table = new DataTable();
@@ -113,7 +114,7 @@ namespace WebApplication1.Controllers.SectionsController
         {
             int id = 0;
             string query = @"
-                insert into page_Sections
+                insert into about_us
                 (id,section_name,section_type,layout_position,last_mod_date,text,additional_text,image1,image2,image3,last_mod_user_id)
                 values 
                 (@id,@section_name,@section_type,@layout_position,@last_mod_date,@text,@additional_text,@image1,@image2,@image3,@last_mod_user_id)

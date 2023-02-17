@@ -108,7 +108,7 @@ namespace CMS_Projekt_API.Controllers
         {
             int id = 0;
             string query = @"
-                insert into page_Sections
+                insert into hero_banners
                 (id,section_name,section_type,layout_position,last_mod_date,text,additional_text,background_image,last_mod_user_id)
                 values 
                 (@id,@section_name,@section_type,@layout_position,@last_mod_date,@text,@additional_text,@background_image,@last_mod_user_id)

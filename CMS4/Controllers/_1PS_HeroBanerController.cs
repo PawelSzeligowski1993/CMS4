@@ -28,14 +28,14 @@ namespace WebApplication1.Controllers.SectionsController
                 select 
                         u.full_name as ""u.full_name"",
                         hb.id as ""hb.id"",
-                        section_name as ""section_name"",
-                        section_type as ""section_type"",
-                        layout_position as ""layout_position"",
-                        last_mod_date as ""last_mod_date"",
-                        text as ""text"",
-                        additional_text as ""additional_text"",
-                        background_image as ""background_image"",
-                        last_mod_user_id as ""last_mod_user_id""   
+                        hb.section_name as ""section_name"",
+                        hb.section_type as ""section_type"",
+                        hb.layout_position as ""layout_position"",
+                        hb.last_mod_date as ""last_mod_date"",
+                        hb.text as ""text"",
+                        hb.additional_text as ""additional_text"",
+                        hb.background_image as ""background_image"",
+                        hb.last_mod_user_id as ""last_mod_user_id""   
                 from hero_banners as hb
                  inner join  users as u on u.id = hb.last_mod_user_id
             ";
@@ -61,7 +61,7 @@ namespace WebApplication1.Controllers.SectionsController
         }
 
 
-        //------------------- Get hero_banners by title -------------------
+        //------------------- Get hero_banners by section_name -------------------
 
         [HttpGet("{section_name}")]
         public JsonResult GetHero_BannersByTitle(string section_name)
@@ -72,16 +72,17 @@ namespace WebApplication1.Controllers.SectionsController
                         
                         u.full_name as ""u.full_name"",
                         hb.id as ""hb.id"",
-                        section_name as ""section_name"",
-                        section_type as ""section_type"",
-                        layout_position as ""layout_position"",
-                        last_mod_date as ""last_mod_date"",
-                        text as ""text"",
-                        additional_text as ""additional_text"",
-                        background_image as ""background_image"",
-                        last_mod_user_id as ""last_mod_user_id""
-                   from hero_banners as hb where (section_name=@section_name)
+                        hb.section_name as ""section_name"",
+                        hb.section_type as ""section_type"",
+                        hb.layout_position as ""layout_position"",
+                        hb.last_mod_date as ""last_mod_date"",
+                        hb.text as ""text"",
+                        hb.additional_text as ""additional_text"",
+                        hb.background_image as ""background_image"",
+                        hb.last_mod_user_id as ""last_mod_user_id""
+                   from hero_banners as hb 
                  inner join  users as u on u.id = hb.last_mod_user_id
+                where hb.section_name=@section_name
                  
                 
             ";

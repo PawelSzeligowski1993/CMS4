@@ -15,26 +15,25 @@ namespace CMS4.Controllers
             _configuration = configuration;
         }
 
-        //------------------------------------------- GET by name numbers ------------------------------------------------
+        //------------------------------------------- GET work_with_us ------------------------------------------------
         //-------------------Get all numbers -------------------
         [HttpGet]
-        public JsonResult Get_numbers()
+        public JsonResult GetWorkWithUs()
         {
-            //string name = "numbers";
-
             string query = @"
-                select u.full_name as ""u.full_name"",
-                        hb.id as ""hb.id"",
-                        section_name as ""section_name"",
-                        section_type as ""section_type"",
-                        layout_position as ""layout_position"",
-                        last_mod_date as ""last_mod_date"",
-                        text as ""text"",
-                        additional_text as ""additional_text"",
-                        background_image as ""background_image"",
-                        last_mod_user_id as ""last_mod_user_id""   
-                from hero_banners as hb
-                 inner join  users as u on u.id = hb.last_mod_user_id
+                select 
+                        u.full_name as ""full_name"",
+                        wwu.id as ""id"",
+                        wwu.section_name as ""section_name"",
+                        wwu.section_type as ""section_type"",
+                        wwu.layout_position as ""layout_position"",
+                        wwu.last_mod_date as ""last_mod_date"",
+                        wwu.text as ""text"",
+                        wwu.additional_text as ""additional_text"",
+                        wwu.background_image as ""background_image"",
+                        wwu.last_mod_user_id as ""last_mod_user_id""   
+                from work_with_us as wwu
+                inner join  users as u on u.id = wwu.last_mod_user_id
             ";
 
             DataTable table = new DataTable();
@@ -58,26 +57,27 @@ namespace CMS4.Controllers
         }
 
 
-        //------------------- Get numbers by title -------------------
+        //------------------- Get work_with_us by section_name -------------------
 
         [HttpGet("{section_name}")]
         public JsonResult GetNumbersByTitle(string section_name)
         {
             //string name = "numbers";
             string query = @"
-                select u.full_name as ""u.full_name"",
-                        hb.id as ""hb.id"",
-                        section_name as ""section_name"",
-                        section_type as ""section_type"",
-                        layout_position as ""layout_position"",
-                        last_mod_date as ""last_mod_date"",
-                        text as ""text"",
-                        additional_text as ""additional_text"",
-                        background_image as ""background_image"",
-                        last_mod_user_id as ""last_mod_user_id""   
-                from hero_banners as hb
-                 inner join  users as u on u.id = hb.last_mod_user_id
-                where (section_name=@section_name)
+                select 
+                        u.full_name as ""full_name"",
+                        wwu.id as ""id"",
+                        wwu.section_name as ""section_name"",
+                        wwu.section_type as ""section_type"",
+                        wwu.layout_position as ""layout_position"",
+                        wwu.last_mod_date as ""last_mod_date"",
+                        wwu.text as ""text"",
+                        wwu.additional_text as ""additional_text"",
+                        wwu.background_image as ""background_image"",
+                        wwu.last_mod_user_id as ""last_mod_user_id""   
+                from work_with_us as wwu
+                inner join  users as u on u.id = wwu.last_mod_user_id
+                where wwu.section_name=@section_name
             ";
 
             DataTable table = new DataTable();
@@ -102,16 +102,16 @@ namespace CMS4.Controllers
             return new JsonResult(table);
         }
 
-        ////------------------------------------------- POST by name numbers ------------------------------------------------
+        ////------------------------------------------- POST work_with_us ------------------------------------------------
         [HttpPost]
-        public JsonResult PostNumbers(DB4_NumbersDTO numbers)
+        public JsonResult PostWorkWithUs(DB5_WorkWithUsDTO work_with_us)
         {
             int id = 0;
             string query = @"
-                insert into page_Sections
-                (id,section_name,section_type,layout_position,last_mod_date,text,value1,description1,value2,description2,last_mod_user_id)
+                insert into work_with_us
+                (id,section_name,section_type,layout_position,last_mod_date,text,additional_text,background_image,last_mod_user_id)
                 values 
-                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@text,@value1,@description1,@value2,@description2,@last_mod_user_id)
+                (@id,@section_name,@section_type,@layout_position,@last_mod_date,@text,@additional_text,@background_image,@last_mod_user_id)
             ";
 
             DataTable table = new DataTable();
@@ -122,17 +122,15 @@ namespace CMS4.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@id", numbers.id);
-                    myCommand.Parameters.AddWithValue("@section_name", numbers.section_name);
-                    myCommand.Parameters.AddWithValue("@section_type", numbers.section_type);
-                    myCommand.Parameters.AddWithValue("@layout_position", numbers.layout_position);
-                    myCommand.Parameters.AddWithValue("@last_mod_date", numbers.last_mod_date);
-                    myCommand.Parameters.AddWithValue("@text", numbers.text);
-                    myCommand.Parameters.AddWithValue("@value1", numbers.value1);
-                    myCommand.Parameters.AddWithValue("@description1", numbers.description1);
-                    myCommand.Parameters.AddWithValue("@value2", numbers.value2);
-                    myCommand.Parameters.AddWithValue("@description2", numbers.description2);
-                    myCommand.Parameters.AddWithValue("@last_mod_user_id", numbers.last_mod_user_id);
+                    myCommand.Parameters.AddWithValue("@id", work_with_us.id);
+                    myCommand.Parameters.AddWithValue("@section_name", work_with_us.section_name);
+                    myCommand.Parameters.AddWithValue("@section_type", work_with_us.section_type);
+                    myCommand.Parameters.AddWithValue("@layout_position", work_with_us.layout_position);
+                    myCommand.Parameters.AddWithValue("@last_mod_date", work_with_us.last_mod_date);
+                    myCommand.Parameters.AddWithValue("@text", work_with_us.text);
+                    myCommand.Parameters.AddWithValue("@additional_text", work_with_us.additional_text);
+                    myCommand.Parameters.AddWithValue("@background_image", work_with_us.background_image);
+                    myCommand.Parameters.AddWithValue("@last_mod_user_id", work_with_us.last_mod_user_id);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -143,27 +141,25 @@ namespace CMS4.Controllers
                 }
             }
 
-            return new JsonResult("New numbers Added Successfully");
+            return new JsonResult("New work_with_us Added Successfully");
         }
 
 
-        ////------------------------------------------- PUT (update) IN numbers ------------------------------------------------
+        ////------------------------------------------- PUT (update) IN work_with_us ------------------------------------------------
 
         [HttpPut]
-        public JsonResult PutInNumbers(DB4_NumbersDTO numbers)
+        public JsonResult PutInNumbers(DB5_WorkWithUsDTO work_with_us)
         {
             string query = @"
-                update numbers
+                update work_with_us
                 set id = @id,
                 section_name = @section_name,
                 section_type = @section_type,
                 layout_position = @layout_position,
                 last_mod_date = @last_mod_date,
                 text = @text,
-                value1 = @value1,
-                description1 = @description1,
-                value2 = @value2,
-                description2 = @description2,
+                additional_text = @additional_text,
+                background_image = @background_image,
                 last_mod_user_id = @last_mod_user_id
                 where (id = @id) 
             ";
@@ -176,17 +172,15 @@ namespace CMS4.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@id", numbers.id);
-                    myCommand.Parameters.AddWithValue("@section_name", numbers.section_name);
-                    myCommand.Parameters.AddWithValue("@section_type", numbers.section_type);
-                    myCommand.Parameters.AddWithValue("@layout_position", numbers.layout_position);
-                    myCommand.Parameters.AddWithValue("@last_mod_date", numbers.last_mod_date);
-                    myCommand.Parameters.AddWithValue("@text", numbers.text);
-                    myCommand.Parameters.AddWithValue("@value1", numbers.value1);
-                    myCommand.Parameters.AddWithValue("@description1", numbers.description1);
-                    myCommand.Parameters.AddWithValue("@value2", numbers.value2);
-                    myCommand.Parameters.AddWithValue("@description2", numbers.description2);
-                    myCommand.Parameters.AddWithValue("@last_mod_user_id", numbers.last_mod_user_id);
+                    myCommand.Parameters.AddWithValue("@id", work_with_us.id);
+                    myCommand.Parameters.AddWithValue("@section_name", work_with_us.section_name);
+                    myCommand.Parameters.AddWithValue("@section_type", work_with_us.section_type);
+                    myCommand.Parameters.AddWithValue("@layout_position", work_with_us.layout_position);
+                    myCommand.Parameters.AddWithValue("@last_mod_date", work_with_us.last_mod_date);
+                    myCommand.Parameters.AddWithValue("@text", work_with_us.text);
+                    myCommand.Parameters.AddWithValue("@additional_text", work_with_us.additional_text);
+                    myCommand.Parameters.AddWithValue("@background_image", work_with_us.background_image);
+                    myCommand.Parameters.AddWithValue("@last_mod_user_id", work_with_us.last_mod_user_id);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
@@ -196,16 +190,16 @@ namespace CMS4.Controllers
                 }
             }
 
-            return new JsonResult("numbers Updated Successfully");
+            return new JsonResult("work_with_us Updated Successfully");
         }
 
 
-        ////---------------------------------------------- Delete by Id and name(Baner) ----------------------------------------------
+        ////---------------------------------------------- Delete work_with_us by Id ----------------------------------------------
         [HttpDelete("{id}")]
         public JsonResult DeleteNumbers(int id)
         {
             string query = @"
-                delete from numbers
+                delete from work_with_us
                 where (id=@id );
             ";
 
@@ -226,7 +220,7 @@ namespace CMS4.Controllers
 
                 }
             }
-            return new JsonResult("Numbers Deleted Successfully");
+            return new JsonResult("work_with_us Deleted Successfully");
         }
 
 

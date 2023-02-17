@@ -27,18 +27,20 @@ namespace WebApplication1.Controllers.SectionsController
             //string name = "numbers";
 
             string query = @"
-                select id as ""id"",
-                        section_name as ""section_name"",
-                        section_type as ""section_type"",
-                        layout_position as ""layout_position"",
-                        last_mod_date as ""last_mod_date"",
-                        text as ""text"",
-                        additional_text as ""additional_text"",
-                        image1 as ""image1"",
-                        image2 as ""image2"",
-                        image3 as ""image3"",
-                        last_mod_user_id as ""last_mod_user_id""   
-                from numbers
+                select 
+                        u.full_name as ""full_name"",
+                        n.id as ""id"",
+                        n.section_name as ""section_name"",
+                        n.section_type as ""section_type"",
+                        n.layout_position as ""layout_position"",
+                        n.last_mod_date as ""last_mod_date"",
+                        n.text as ""text"",
+                        n.value1 as ""value1"",
+                        n.description1 as ""description1"",
+                        n.value2 as ""value2"",
+                        n.description2 as ""description2""  
+                from numbers as n
+                 inner join  users as u on u.id = n.last_mod_user_id
             ";
 
             DataTable table = new DataTable();
@@ -62,26 +64,28 @@ namespace WebApplication1.Controllers.SectionsController
         }
 
 
-        //------------------- Get numbers by title -------------------
+        //------------------- Get numbers by section_name -------------------
 
         [HttpGet("{section_name}")]
         public JsonResult GetNumbersByTitle(string section_name)
         {
             //string name = "numbers";
             string query = @"
-                select id as ""id"",
-                        section_name as ""section_name"",
-                        section_type as ""section_type"",
-                        layout_position as ""layout_position"",
-                        last_mod_date as ""last_mod_date"",
-                        text as ""text"",
-                        additional_text as ""additional_text"",
-                        image1 as ""image1"",
-                        image2 as ""image2"",
-                        image3 as ""image3"",
-                        last_mod_user_id as ""last_mod_user_id""    
-                from numbers
-                where (section_name=@section_name)
+                select 
+                        u.full_name as ""full_name"",
+                        n.id as ""id"",
+                        n.section_name as ""section_name"",
+                        n.section_type as ""section_type"",
+                        n.layout_position as ""layout_position"",
+                        n.last_mod_date as ""last_mod_date"",
+                        n.text as ""text"",
+                        n.value1 as ""value1"",
+                        n.description1 as ""description1"",
+                        n.value2 as ""value2"",
+                        n.description2 as ""description2""
+                 from numbers as n 
+                 inner join  users as u on u.id = n.last_mod_user_id
+                 where n.section_name=@section_name
             ";
 
             DataTable table = new DataTable();
@@ -112,7 +116,7 @@ namespace WebApplication1.Controllers.SectionsController
         {
             int id = 0;
             string query = @"
-                insert into page_Sections
+                insert into numbers
                 (id,section_name,section_type,layout_position,last_mod_date,text,value1,description1,value2,description2,last_mod_user_id)
                 values 
                 (@id,@section_name,@section_type,@layout_position,@last_mod_date,@text,@value1,@description1,@value2,@description2,@last_mod_user_id)
