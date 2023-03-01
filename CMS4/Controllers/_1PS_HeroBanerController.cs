@@ -95,14 +95,12 @@ namespace WebApplication1.Controllers.SectionsController
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-
                     myCommand.Parameters.AddWithValue("@section_name", section_name);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
                     myReader.Close();
                     myCon.Close();
-
                 }
             }
 
@@ -144,10 +142,8 @@ namespace WebApplication1.Controllers.SectionsController
 
                     myReader.Close();
                     myCon.Close();
-
                 }
             }
-
             return new JsonResult("New hero_banners Added Successfully");
         }
 
@@ -229,7 +225,5 @@ namespace WebApplication1.Controllers.SectionsController
             }
             return new JsonResult("Hero_banners Deleted Successfully");
         }
-
-
     }
 }

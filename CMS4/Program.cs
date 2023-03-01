@@ -25,6 +25,19 @@ builder.Services.AddEntityFrameworkNpgsql()
             .AddDbContext<ApplicationDBContext>(opt =>
             opt.UseNpgsql(builder.Configuration.GetConnectionString("SampleDBConnection")));
 
+var MyAlloweSpecificOrgins = "_myAllowSpecificOrgins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAlloweSpecificOrgins,
+        policy =>
+        {
+            policy.WithOrigins("https://localhost:7110/")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+        });
+});
+
 
 
 
@@ -44,6 +57,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors(MyAlloweSpecificOrgins);
 
 app.Run();
 
