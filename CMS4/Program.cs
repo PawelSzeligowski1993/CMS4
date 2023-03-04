@@ -32,9 +32,11 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAlloweSpecificOrgins,
         policy =>
         {
-            policy.WithOrigins("https://localhost:7110/")
-            .AllowAnyHeader()
-            .AllowAnyMethod();
+            //policy.WithOrigins("https://localhost:7110/")
+            policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+
         });
 });
 
@@ -54,11 +56,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors(MyAlloweSpecificOrgins);
+
 app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseCors(MyAlloweSpecificOrgins);
+
 
 app.Run();
 
